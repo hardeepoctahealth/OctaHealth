@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "316712057329",
+    "firebase_url": "https://octahealth-61c89.firebaseio.com",
+    "project_id": "octahealth-61c89",
+    "storage_bucket": "octahealth-61c89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316712057329:android:266b50e3ca762ee20e6c50",
+        "android_client_info": {
+          "package_name": "com.example.octahealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316712057329-hjvpjbo088177308ae161bem4d4mld52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCNTgB6Rk0uceMgM2FO--xJxwvoujGc0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316712057329-hjvpjbo088177308ae161bem4d4mld52.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

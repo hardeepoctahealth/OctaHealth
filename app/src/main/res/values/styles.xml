@@ -1,0 +1,20 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="fontFamily">@font/cabin_medium</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="ProgressDialog" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">Verifying Code!</item>
+        <item name="DialogSpotColor">@color/colorPrimary</item>
+        <item name="DialogSpotCount">4</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/white</item>
+    </style>
+</resources>
