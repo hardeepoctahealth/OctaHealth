@@ -72,7 +72,7 @@
             app:bt_icon="@drawable/help"
             app:bt_padding="10dp"
             app:bt_shape="@drawable/nav3"
-            app:bt_title="Help"
+            app:bt_title="Community"
             app:bt_titlePadding="@dimen/title_padding" />
 
 

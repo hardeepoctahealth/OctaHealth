@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F3F3F3"
     android:layout_marginBottom="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".NaviagationFragment.Products">
@@ -38,14 +39,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsrecyclerview"
+    <com.github.islamkhsh.CardSliderViewPager
+        android:id="@+id/productsslider"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        app:cardSlider_baseShadow="2dp"
+        app:cardSlider_otherPagesWidth="24dp"
+        app:cardSlider_smallScaleFactor="0.9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

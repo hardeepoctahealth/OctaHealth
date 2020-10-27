@@ -1,6 +1,7 @@
 package com.example.octahealth.NaviagationFragment;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,14 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.octahealth.Benefit;
 import com.example.octahealth.BlogDetails;
+import com.example.octahealth.ProductDetails;
 import com.example.octahealth.ProductDetails;
 import com.example.octahealth.R;
 import com.example.octahealth.ViewBlog;
@@ -25,17 +31,25 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.github.islamkhsh.CardSliderAdapter;
+import com.github.islamkhsh.CardSliderViewPager;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class Products extends Fragment {
 
-    RecyclerView recyclerView;
-    FirebaseRecyclerAdapter<ProductDetails, ProductsViewHolder> firebaseRecyclerAdapter;
     CircularProgressBar circularProgressBar;
-
+    CardSliderViewPager productslider;
+    ArrayList<ProductDetails> products;
+    FirebaseRecyclerAdapter<Benefit, BenefitsViewHolder> firebaseRecyclerAdapter;
 
     public Products() {
         // Required empty public constructor
@@ -47,66 +61,130 @@ public class Products extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_products, container, false);
 
-        recyclerView = view.findViewById(R.id.productsrecyclerview);
         circularProgressBar = view.findViewById(R.id.circularProgressBar);
 
-        final Query query = FirebaseDatabase.getInstance().getReference().child("Products");
+        productslider = view.findViewById(R.id.productsslider);
+        products = new ArrayList<>();
 
-        FirebaseRecyclerOptions<ProductDetails> options = new FirebaseRecyclerOptions.Builder<ProductDetails>()
-                .setQuery(query, new SnapshotParser<ProductDetails>() {
-                    @NonNull
-                    @Override
-                    public ProductDetails parseSnapshot(@NonNull DataSnapshot snapshot) {
-                        return new ProductDetails(snapshot.child("title").getValue(String.class), snapshot.child("content").getValue(String.class), snapshot.child("image").getValue(String.class));
-                    }
-                }).build();
-
-
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ProductDetails, ProductsViewHolder>(options) {
+        FirebaseDatabase.getInstance().getReference().child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull final ProductsViewHolder holder, final int position, @NonNull ProductDetails model) {
-
-                if (position == 0) {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    circularProgressBar.setVisibility(View.GONE);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    products.add(new ProductDetails(dataSnapshot.child("title").getValue(String.class), dataSnapshot.child("content").getValue(String.class), dataSnapshot.child("image").getValue(String.class), dataSnapshot.child("actualprice").getValue(String.class), dataSnapshot.child("discountedprice").getValue(String.class), dataSnapshot.getKey()));
                 }
 
-                holder.content.setText(model.getContent());
-                holder.title.setText(model.getTitle());
-                Glide.with(getActivity()).load(model.getImage()).into(holder.imageView);
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
-                                (getActivity(), holder.imageView, "imageMain");
-                        Intent in = new Intent(getActivity(), ViewProduct.class);
-                        in.putExtra("id", firebaseRecyclerAdapter.getRef(position).getKey());
-                        startActivity(in, activityOptionsCompat.toBundle());
-                    }
-                });
+                productslider.setAdapter(new ProductAdapter(products));
 
             }
 
-            @NonNull
             @Override
-            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.productsitem, parent, false);
-                return new ProductsViewHolder(view1);
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
-        };
+        });
 
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(firebaseRecyclerAdapter);
 
         return view;
     }
 
+
+    public class ProductAdapter extends CardSliderAdapter<ProductsViewHolder> {
+
+        private ArrayList<ProductDetails> Products;
+
+        public ProductAdapter(ArrayList<ProductDetails> Products) {
+            this.Products = Products;
+        }
+
+        @Override
+        public int getItemCount() {
+            return Products.size();
+        }
+
+        @Override
+        public ProductsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productsitem, parent, false);
+            return new ProductsViewHolder(view);
+        }
+
+        @Override
+        public void bindVH(@NotNull final ProductsViewHolder holder, final int i) {
+
+            if (i == 0) {
+                circularProgressBar.setVisibility(View.GONE);
+            }
+
+            holder.title.setText(Products.get(i).getTitle());
+            Glide.with(getActivity()).load(Products.get(i).getImage()).apply(new RequestOptions().override(800, 500)).into(holder.imageView);
+            holder.discountedprice.setText("₹" + Products.get(i).getDiscountedprice()+"/mo");
+            holder.actualprice.setText("₹" + Products.get(i).getActualprice());
+            holder.actualprice.setPaintFlags(holder.actualprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            Log.i("id",Products.get(i).getId());
+
+            holder.viewplan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
+                            (getActivity(),holder.imageView,"imageMain");
+                    Intent intent=new Intent(getActivity(),ViewProduct.class);
+                    intent.putExtra("id", Products.get(i).getId());
+                    startActivity(intent,activityOptionsCompat.toBundle());
+                }
+            });
+
+            final Query query = FirebaseDatabase.getInstance().getReference().child("Products").child(Products.get(i).getId()).child("benefits");
+
+            FirebaseRecyclerOptions<Benefit> options = new FirebaseRecyclerOptions.Builder<Benefit>()
+                    .setQuery(query, new SnapshotParser<Benefit>() {
+                        @NonNull
+                        @Override
+                        public Benefit parseSnapshot(@NonNull DataSnapshot snapshot) {
+                            return new Benefit(snapshot.child("title").getValue(String.class));
+                        }
+                    }).build();
+
+
+            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Benefit, BenefitsViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull BenefitsViewHolder holder, int position, @NonNull Benefit model) {
+                    holder.title.setText(model.getTitle());
+                }
+
+                @NonNull
+                @Override
+                public BenefitsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.benefitsitem, parent, false);
+                    return new BenefitsViewHolder(view);
+                }
+
+                @Override
+                public int getItemCount() {
+                    if (super.getItemCount() > 5) {
+                        return 5;
+                    } else {
+                        return super.getItemCount();
+                    }
+                }
+            };
+
+            holder.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            holder.recyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
+            if(firebaseRecyclerAdapter!=null)
+            {
+                firebaseRecyclerAdapter.startListening();
+            }
+        }
+
+    }
+
+
     private class ProductsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, content;
+        TextView title, content, discountedprice, actualprice,viewplan;
         ImageView imageView;
+        RecyclerView recyclerView;
 
         public ProductsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -114,6 +192,21 @@ public class Products extends Fragment {
             title = itemView.findViewById(R.id.title);
             content = itemView.findViewById(R.id.content);
             imageView = itemView.findViewById(R.id.image);
+            actualprice = itemView.findViewById(R.id.actualprice);
+            discountedprice = itemView.findViewById(R.id.discountedprice);
+            recyclerView = itemView.findViewById(R.id.benefitsrecyclerview);
+            viewplan=itemView.findViewById(R.id.viewplan);
+        }
+    }
+
+    private class BenefitsViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title;
+
+        public BenefitsViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            title = itemView.findViewById(R.id.title);
         }
     }
 
@@ -121,12 +214,18 @@ public class Products extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        firebaseRecyclerAdapter.startListening();
+        if(firebaseRecyclerAdapter!=null)
+        {
+            firebaseRecyclerAdapter.startListening();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        firebaseRecyclerAdapter.stopListening();
+        if(firebaseRecyclerAdapter!=null)
+        {
+            firebaseRecyclerAdapter.stopListening();
+        }
     }
 }

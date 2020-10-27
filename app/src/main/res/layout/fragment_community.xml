@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NaviagationFragment.Community">
+
+    <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:background="@drawable/rounderrect"
+        app:bnc_mode="spread"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+      >
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/feeditem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/colorPrimary"
+            app:bt_colorInactive="@color/white"
+            app:bt_icon="@drawable/feed"
+            app:bt_padding="10dp"
+            app:bt_shape="@drawable/navv1"
+            app:bt_title="Feed"
+            app:bt_titlePadding="@dimen/title_padding" />
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/qnaitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/colorPrimary"
+            app:bt_colorInactive="@color/white"
+            app:bt_icon="@drawable/quesans"
+            app:bt_padding="10dp"
+            app:bt_shape="@drawable/navv1"
+            app:bt_title="QnA"
+            app:bt_titlePadding="@dimen/title_padding" />
+
+
+    </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

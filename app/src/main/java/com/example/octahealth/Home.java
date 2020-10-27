@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.octahealth.NaviagationFragment.Blogs;
+import com.example.octahealth.NaviagationFragment.Community;
 import com.example.octahealth.NaviagationFragment.Offers;
 import com.example.octahealth.NaviagationFragment.Products;
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
@@ -52,6 +53,9 @@ public class Home extends AppCompatActivity {
                         break;
                     case 2 :
                         fragment = new Offers();
+                        break;
+                    case 3 :
+                        fragment = new Community();
                         break;
                 }
                 fragmentManager.beginTransaction()

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ViewProduct">
 
     <androidx.core.widget.NestedScrollView
@@ -22,9 +23,9 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/product"
                 android:transitionName="imageMain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -35,9 +36,8 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:gravity="center"
                 android:padding="10dp"
-                android:text="Education Protection Insurance"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -52,14 +52,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:gravity="left"
+                android:gravity="center"
                 android:paddingBottom="20dp"
-                android:text="First-in-class unique insurance policy conceptualised by OctaHealth Inc. and underwritten by GoDigit General Insurance Company that provides coverage of sum insured starting from ₹1,00,000/- which will cover full tuition fee and all other expenses of the students in case of death of earning parent due to COVID-19, personal accident or permanent/partial disabilty up to the limit of the sum insured.  The policy also provides the sum insured to parents in case of death of students due to COVID-19, personal accident or permanent/partial disabilty up to the limit of the sum insured."
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/benefitsrecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/price" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
@@ -79,7 +100,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="Education Protection Insurance"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
