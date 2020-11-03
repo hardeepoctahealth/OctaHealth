@@ -15,24 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.octahealth.Benefit;
-import com.example.octahealth.BlogDetails;
+import com.example.octahealth.Choose;
+import com.example.octahealth.CustomizePlan;
 import com.example.octahealth.ProductDetails;
-import com.example.octahealth.ProductDetails;
+import com.example.octahealth.Profile;
 import com.example.octahealth.R;
-import com.example.octahealth.ViewBlog;
 import com.example.octahealth.ViewProduct;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.github.islamkhsh.CardSliderAdapter;
 import com.github.islamkhsh.CardSliderViewPager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,6 +64,34 @@ public class Products extends Fragment {
 
         productslider = view.findViewById(R.id.productsslider);
         products = new ArrayList<>();
+
+        final ImageView profile = view.findViewById(R.id.profilepic);
+        final ImageView switchwindow=view.findViewById(R.id.switchwindow);
+        switchwindow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Choose.class));
+            }
+        });
+        FirebaseDatabase.getInstance().getReference().child("Profiles").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (getContext() != null)
+                    Glide.with(getContext()).load(snapshot.child("profilepic").getValue(String.class)).apply(new RequestOptions().override(200, 200)).into(profile);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Profile.class));
+            }
+        });
 
         FirebaseDatabase.getInstance().getReference().child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,20 +143,35 @@ public class Products extends Fragment {
 
             holder.title.setText(Products.get(i).getTitle());
             Glide.with(getActivity()).load(Products.get(i).getImage()).apply(new RequestOptions().override(800, 500)).into(holder.imageView);
-            holder.discountedprice.setText("₹" + Products.get(i).getDiscountedprice()+"/mo");
+            holder.discountedprice.setText("₹" + Products.get(i).getDiscountedprice() + "/mo");
             holder.actualprice.setText("₹" + Products.get(i).getActualprice());
+            holder.content.setText(Products.get(i).getContent());
             holder.actualprice.setPaintFlags(holder.actualprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            Log.i("id",Products.get(i).getId());
+            Log.i("id", Products.get(i).getId());
+
+            if(Products.get(i).getTitle().equals("Customized Plan"))
+            {
+                holder.viewplan.setText("Customize");
+                holder.actualprice.setText("");
+                holder.discountedprice.setText("");
+
+            }
 
             holder.viewplan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(Products.get(i).getTitle().equals("Customized Plan")){
+                        Intent intent = new Intent(getActivity(), CustomizePlan.class);
+                        startActivity(intent);
+
+                    }
+                    else {
                     ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
-                            (getActivity(),holder.imageView,"imageMain");
-                    Intent intent=new Intent(getActivity(),ViewProduct.class);
+                            (getActivity(), holder.imageView, "imageMain");
+                    Intent intent = new Intent(getActivity(), ViewProduct.class);
                     intent.putExtra("id", Products.get(i).getId());
-                    startActivity(intent,activityOptionsCompat.toBundle());
-                }
+                    startActivity(intent, activityOptionsCompat.toBundle());
+                }}
             });
 
             final Query query = FirebaseDatabase.getInstance().getReference().child("Products").child(Products.get(i).getId()).child("benefits");
@@ -171,8 +213,7 @@ public class Products extends Fragment {
             holder.recyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
-            if(firebaseRecyclerAdapter!=null)
-            {
+            if (firebaseRecyclerAdapter != null) {
                 firebaseRecyclerAdapter.startListening();
             }
         }
@@ -182,7 +223,7 @@ public class Products extends Fragment {
 
     private class ProductsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, content, discountedprice, actualprice,viewplan;
+        TextView title, content, discountedprice, actualprice, viewplan;
         ImageView imageView;
         RecyclerView recyclerView;
 
@@ -195,7 +236,7 @@ public class Products extends Fragment {
             actualprice = itemView.findViewById(R.id.actualprice);
             discountedprice = itemView.findViewById(R.id.discountedprice);
             recyclerView = itemView.findViewById(R.id.benefitsrecyclerview);
-            viewplan=itemView.findViewById(R.id.viewplan);
+            viewplan = itemView.findViewById(R.id.viewplan);
         }
     }
 
@@ -214,18 +255,18 @@ public class Products extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(firebaseRecyclerAdapter!=null)
-        {
+        if (firebaseRecyclerAdapter != null) {
             firebaseRecyclerAdapter.startListening();
         }
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(firebaseRecyclerAdapter!=null)
-        {
+        if (firebaseRecyclerAdapter != null) {
             firebaseRecyclerAdapter.stopListening();
         }
     }
+
 }

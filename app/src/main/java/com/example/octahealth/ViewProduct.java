@@ -6,6 +6,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.example.octahealth.NaviagationFragment.Products;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,12 +32,16 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 public class ViewProduct extends AppCompatActivity implements PaymentResultListener {
 
 
     TextView title, title2, content, buynow,price;
     ImageView image;
+    String t,a;
     String id;
+    int p=0;
     NestedScrollView nestedScrollView;
     RecyclerView recyclerView;
     FirebaseRecyclerAdapter<Benefit, BenefitsViewHolder> firebaseRecyclerAdapter;
@@ -71,6 +77,8 @@ public class ViewProduct extends AppCompatActivity implements PaymentResultListe
                 content.setText(details.getContent());
                 title.setText(details.getTitle());
                 title2.setText(details.getTitle());
+                t=details.getTitle();
+                a=details.getDiscountedprice();
                 Glide.with(ViewProduct.this).load(details.getImage()).into(image);
                 price.setText("₹" + details.getDiscountedprice());
 
@@ -158,6 +166,30 @@ public class ViewProduct extends AppCompatActivity implements PaymentResultListe
     @Override
     public void onPaymentSuccess(String s) {
         Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(ViewProduct.this,PaymentInfo.class);
+        intent.putExtra("amount",a);
+        intent.putExtra("plantype",t);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        FirebaseDatabase.getInstance().getReference().child("Profiles").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Myplans").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(!snapshot.child(id).exists())
+                {
+                    snapshot.child(id).getRef().child("id").setValue(id);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override

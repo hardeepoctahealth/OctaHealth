@@ -79,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.fblogin);
 
 
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+        {
+            startActivity(new Intent(MainActivity.this,Choose.class));
+            finish();
+        }
+
+
         mCallbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -166,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("TAG", "signInWithCredential:success");
 
                             FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(MainActivity.this,Home.class));
 
                             Log.i("name",user.getDisplayName());
 
@@ -283,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(MainActivity.this,SetupProfile.class));
+                            startActivity(new Intent(MainActivity.this,Home.class));
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

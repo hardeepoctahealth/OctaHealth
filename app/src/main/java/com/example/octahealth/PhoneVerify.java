@@ -76,7 +76,7 @@ public class PhoneVerify extends AppCompatActivity {
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(PhoneVerify.this,SetupProfile.class);
+                Intent intent=new Intent(PhoneVerify.this,Home.class);
                 startActivity(intent);
             }
         });

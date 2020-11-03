@@ -30,7 +30,7 @@
             app:bt_icon="@drawable/blog"
             app:bt_padding="10dp"
             app:bt_shape="@drawable/navback"
-            app:bt_title="Blogs"
+            app:bt_title="Articles"
             app:bt_titlePadding="@dimen/title_padding"
            />
 
@@ -62,36 +62,6 @@
             app:bt_titlePadding="@dimen/title_padding" />
 
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/helpitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="#B733CF"
-            app:bt_colorInactive="#B733CF"
-            app:bt_icon="@drawable/help"
-            app:bt_padding="10dp"
-            app:bt_shape="@drawable/nav3"
-            app:bt_title="Community"
-            app:bt_titlePadding="@dimen/title_padding" />
-
-
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/profileitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="#2CCF76"
-            app:bt_colorInactive="#2CCF76"
-            app:bt_icon="@drawable/profile"
-            app:bt_padding="10dp"
-            app:bt_shape="@drawable/nav4"
-            app:bt_title="Profile"
-            app:bt_titlePadding="@dimen/title_padding" />
-
-
-
-        <!-- Add more child items here - max upto 5 -->
 
     </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
 

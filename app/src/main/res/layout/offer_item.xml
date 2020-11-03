@@ -54,6 +54,7 @@
                 android:background="@drawable/stroke"
                 android:padding="10dp"
                 android:textColor="#9E9E9E"
+                android:foreground="?attr/selectableItemBackground"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
