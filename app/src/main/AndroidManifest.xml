@@ -14,16 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CommunityAc"></activity>
-        <activity android:name=".Choose" />
-        <activity android:name=".CustomizePlan" >
+        <activity android:name=".Plans">
 
+
+
+        </activity>
+        <activity android:name=".CommunityAc" />
+        <activity android:name=".Choose" />
+        <activity android:name=".CustomizePlan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
-
         </activity>
         <activity android:name=".PaymentInfo" />
         <activity android:name=".EditProfile">
@@ -33,12 +36,33 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Profile" />
+        <activity android:name=".Profile" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".ViewProduct" />
         <activity android:name=".ViewBlog" />
-        <activity android:name=".Home" />
+        <activity android:name=".Home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SignUp" />
-        <activity android:name=".SetupProfile" />
+        <activity android:name=".SetupProfile" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".PhoneVerify" />
         <activity android:name=".MainActivity">
             <intent-filter>

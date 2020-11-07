@@ -43,6 +43,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Products extends Fragment {
 
     CircularProgressBar circularProgressBar;
@@ -66,11 +68,13 @@ public class Products extends Fragment {
         products = new ArrayList<>();
 
         final ImageView profile = view.findViewById(R.id.profilepic);
-        final ImageView switchwindow=view.findViewById(R.id.switchwindow);
+        final ImageView switchwindow = view.findViewById(R.id.switchwindow);
         switchwindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Choose.class));
+                getActivity().finish();
+                customType(getActivity(), "fadein-to-fadeout");
             }
         });
         FirebaseDatabase.getInstance().getReference().child("Profiles").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,6 +94,7 @@ public class Products extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Profile.class));
+                customType(getActivity(), "fadein-to-fadeout");
             }
         });
 
@@ -139,6 +144,7 @@ public class Products extends Fragment {
 
             if (i == 0) {
                 circularProgressBar.setVisibility(View.GONE);
+                productslider.scheduleLayoutAnimation();
             }
 
             holder.title.setText(Products.get(i).getTitle());
@@ -149,8 +155,7 @@ public class Products extends Fragment {
             holder.actualprice.setPaintFlags(holder.actualprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             Log.i("id", Products.get(i).getId());
 
-            if(Products.get(i).getTitle().equals("Customized Plan"))
-            {
+            if (Products.get(i).getTitle().equals("Customized Plan")) {
                 holder.viewplan.setText("Customize");
                 holder.actualprice.setText("");
                 holder.discountedprice.setText("");
@@ -160,18 +165,18 @@ public class Products extends Fragment {
             holder.viewplan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(Products.get(i).getTitle().equals("Customized Plan")){
+                    if (Products.get(i).getTitle().equals("Customized Plan")) {
                         Intent intent = new Intent(getActivity(), CustomizePlan.class);
                         startActivity(intent);
 
+                    } else {
+                        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
+                                (getActivity(), holder.imageView, "imageMain");
+                        Intent intent = new Intent(getActivity(), ViewProduct.class);
+                        intent.putExtra("id", Products.get(i).getId());
+                        startActivity(intent, activityOptionsCompat.toBundle());
                     }
-                    else {
-                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
-                            (getActivity(), holder.imageView, "imageMain");
-                    Intent intent = new Intent(getActivity(), ViewProduct.class);
-                    intent.putExtra("id", Products.get(i).getId());
-                    startActivity(intent, activityOptionsCompat.toBundle());
-                }}
+                }
             });
 
             final Query query = FirebaseDatabase.getInstance().getReference().child("Products").child(Products.get(i).getId()).child("benefits");

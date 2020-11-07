@@ -54,6 +54,8 @@ import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, PhoneVerify.class);
                     intent.putExtra("phone", phone.getText().toString());
                     startActivity(intent);
+                    customType(MainActivity.this,"left-to-right");
 
                 }
             }
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(MainActivity.this,Home.class));
+                            customType(MainActivity.this,"fadein-to-fadeout");
 
                             Log.i("name",user.getDisplayName());
 
@@ -292,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(MainActivity.this,Home.class));
+                            customType(MainActivity.this,"fadein-to-fadeout");
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

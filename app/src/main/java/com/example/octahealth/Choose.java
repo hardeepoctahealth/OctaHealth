@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Choose extends AppCompatActivity {
 
 
@@ -26,6 +28,7 @@ public class Choose extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(Choose.this,Home.class));
                 finish();
+                customType(Choose.this,"fadein-to-fadeout");
             }
         });
 
@@ -34,6 +37,8 @@ public class Choose extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(Choose.this, CommunityAc.class));
                 finish();
+                customType(Choose.this,"fadein-to-fadeout");
+
             }
         });
     }

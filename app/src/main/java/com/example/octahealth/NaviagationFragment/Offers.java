@@ -53,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Offers extends Fragment {
 
 
@@ -61,6 +63,8 @@ public class Offers extends Fragment {
     RecyclerView recyclerView;
     FirebaseRecyclerAdapter<Benefit, OffersHolder> firebaseRecyclerAdapter;
     String premium;
+    CarouselView offers,products,articles;
+    CardSliderViewPager cardSliderViewPager;
 
     public Offers() {
         // Required empty public constructor
@@ -74,12 +78,16 @@ public class Offers extends Fragment {
 
         circularProgressBar = view.findViewById(R.id.circularProgressBar);
 
+        articles=view.findViewById(R.id.articlescarview);
+        offers=view.findViewById(R.id.offerscarview);
+        products=view.findViewById(R.id.productscarview);
         details = new ArrayList<>();
         final ImageView profile = view.findViewById(R.id.profilepic);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Profile.class));
+                customType(getActivity(),"fadein-to-fadeout");
             }
         });
         final ImageView switchwindow=view.findViewById(R.id.switchwindow);
@@ -87,6 +95,7 @@ public class Offers extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Choose.class));
+                getActivity().finish();    customType(getActivity(),"fadein-to-fadeout");
             }
         });
         recyclerView = view.findViewById(R.id.offersrecyclerview);
@@ -124,6 +133,11 @@ public class Offers extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Benefit, OffersHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final OffersHolder holder, int position, @NonNull Benefit model) {
+
+                if(position==0)
+                {
+                    recyclerView.scheduleLayoutAnimation();
+                }
 
                 holder.title.setText(model.getTitle());
 
@@ -206,6 +220,7 @@ public class Offers extends Fragment {
 
             if (i == 0) {
                 circularProgressBar.setVisibility(View.GONE);
+
             }
 
             holder.code.setText(offers.get(i).getCode());

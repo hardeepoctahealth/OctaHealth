@@ -43,10 +43,12 @@ import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class EditProfile extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 
-    ImageView profilepic;
+    ImageView profilepic,back;
     EditText name;
     TextView gender, dob, save;
     Uri image=null;
@@ -61,6 +63,14 @@ public class EditProfile extends AppCompatActivity implements DatePickerDialog.O
         gender = findViewById(R.id.gender);
         dob = findViewById(R.id.dob);
         save = findViewById(R.id.save);
+        back=findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,5 +262,11 @@ public class EditProfile extends AppCompatActivity implements DatePickerDialog.O
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         //inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        customType(EditProfile.this,"right-to-left");
     }
 }

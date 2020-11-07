@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Blogs extends Fragment {
 
     public Blogs() {
@@ -49,6 +53,8 @@ public class Blogs extends Fragment {
         // Inflate the layout for this fragment
         final View view =inflater.inflate(R.layout.fragment_blogs, container, false);
 
+//        Log.i("data",getArguments().getString("message"));
+
         recyclerView=view.findViewById(R.id.blogsrecyclerview);
         shimmer=view.findViewById(R.id.shimmer);
 
@@ -57,6 +63,7 @@ public class Blogs extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Profile.class));
+                customType(getActivity(),"fadein-to-fadeout");
             }
         });
 
@@ -65,6 +72,8 @@ public class Blogs extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Choose.class));
+                getActivity().finish();
+                customType(getActivity(),"fadein-to-fadeout");
             }
         });
 
@@ -105,6 +114,7 @@ public class Blogs extends Fragment {
                     shimmer.stopShimmer();
                     shimmer.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.scheduleLayoutAnimation();
                 }
 
                 holder.content.setText(model.getContent());
@@ -137,6 +147,7 @@ public class Blogs extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+
 
         return view;
     }

@@ -1,68 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/cons"
-    android:layout_height="match_parent"
-    tools:context=".Home">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
-    <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
-        android:id="@+id/navigation"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="@dimen/view_bottom_margin" />
+
+    <com.irfaan008.irbottomnavigation.SpaceNavigationView
+        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/white"
-        android:elevation="4dp"
-        android:padding="12dp"
-        app:bnc_mode="spread"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/homeitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="#D36241"
-            app:bt_colorInactive="#D36241"
-            app:bt_icon="@drawable/blog"
-            app:bt_padding="10dp"
-            app:bt_shape="@drawable/navback"
-            app:bt_title="Articles"
-            app:bt_titlePadding="@dimen/title_padding"
-           />
-
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/productsitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="#2DC3CF"
-            app:bt_colorInactive="#2DC3CF"
-            app:bt_icon="@drawable/products"
-            app:bt_padding="10dp"
-            app:bt_shape="@drawable/nav2"
-            app:bt_title="Products"
-            app:bt_titlePadding="@dimen/title_padding" />
+        android:layout_gravity="bottom"
+        app:active_centre_button_background_color="@color/colorPrimary"
+        app:active_centre_button_icon_color="@color/white"
+        app:active_item_color="@color/colorPrimary"
+        app:centre_button_color="@color/white"
+        app:centre_button_icon="@drawable/homeicon"
+        app:centre_part_linear="true"
+        app:inactive_centre_button_icon_color="#4A5F50A1"
+        app:inactive_item_color="#4A5F50A1"
+        app:space_background_color="@color/white"
+        app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
+        app:space_item_icon_size="12sp"
+        app:space_item_text_size="12sp" />
 
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/offersitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="#CF7A26"
-            app:bt_colorInactive="#CF7A26"
-            app:bt_icon="@drawable/offers"
-            app:bt_padding="10dp"
-            app:bt_shape="@drawable/nav5"
-            app:bt_title="Offers"
-            app:bt_titlePadding="@dimen/title_padding" />
-
-
-
-    </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

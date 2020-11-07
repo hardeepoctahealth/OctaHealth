@@ -39,6 +39,8 @@ import java.util.concurrent.TimeUnit;
 
 import dmax.dialog.SpotsDialog;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class PhoneVerify extends AppCompatActivity {
 
     EditText code1, code2, code3, code4, code5, code6;
@@ -78,6 +80,7 @@ public class PhoneVerify extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(PhoneVerify.this,Home.class);
                 startActivity(intent);
+                customType(PhoneVerify.this,"fadein-to-fadeout");
             }
         });
 

@@ -35,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Profile extends AppCompatActivity {
 
 
@@ -146,6 +148,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Profile.this, EditProfile.class));
+                customType(Profile.this,"left-to-right");
             }
         });
     }
@@ -198,5 +201,6 @@ public class Profile extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        customType(Profile.this,"fadein-to-fadeout");
     }
 }

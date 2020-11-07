@@ -14,6 +14,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:visibility="invisible"
+        android:layoutAnimation="@anim/layout_uptodown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
         android:layout_marginEnd="10dp"
         app:cardBackgroundColor="@color/grey"
         app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView7">
